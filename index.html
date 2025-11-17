@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hashed Feature Pattern — ML Design Pattern Presentation</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="preconnect" href="https://unpkg.com" />
+  <style>
+    :root {
+      --bg:#0f172a;
+      --panel:#111827;
+      --card:#0b1220;
+      --muted:#9aa3b2;
+      --text:#e5e7eb;
+      --accent:#60a5fa;
+      --ok:#22c55e;
+      --warn:#f59e0b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 800px at 20% 0%, #0b1220 0%, var(--bg) 55%);
+      color: var(--text);
+    }
+    header {
+      padding: 28px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      border-bottom:1px solid #1f2937;
+      position:sticky;
+      top:0;
+      background:linear-gradient(180deg, rgba(15,23,42,.85), rgba(15,23,42,.55));
+      backdrop-filter: blur(6px);
+      z-index:10;
+    }
+    h1 {
+      font-size: clamp(22px, 2.5vw, 36px);
+      margin:0;
+      letter-spacing:.3px;
+    }
+    .sub { color: var(--muted); font-size: 13px; }
+    main {
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 16px 80px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    section {
+      background: linear-gradient(180deg, rgba(96,165,250,.06), rgba(96,165,250,.0));
+      border:1px solid #1f2937;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    section h2 { margin: 6px 0 12px; font-size: 20px; }
+    p, li { color: #cbd5e1; line-height: 1.55; }
+    .grid {
+      display:grid;
+      gap:14px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .pill {
+      display:inline-block;
+      border:1px solid #1f2937;
+      padding:6px 10px;
+      border-radius:999px;
+      color:#cbd5e1;
+      background:#0b1220;
+      font-size: 12px;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+    }
+    pre {
+      padding:14px;
+      background:#0b1220;
+      border:1px solid #1f2937;
+      border-radius:12px;
+      overflow:auto;
+      font-size: 13px;
+    }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .mermaid {
+      background:#0b1220;
+      border:1px solid #1f2937;
+      border-radius:12px;
+      padding:10px;
+    }
+    .row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+    .btn {
+      appearance:none;
+      border:1px solid #1f2937;
+      background:#0b1220;
+      color:var(--text);
+      padding:10px 14px;
+      border-radius:12px;
+      cursor:pointer;
+      transition:.15s ease;
+      font-weight:600;
+      text-decoration:none;
+      display:inline-block;
+      font-size: 13px;
+    }
+    .btn:hover { transform: translateY(-1px); border-color:#334155; }
+    .btn.primary {
+      background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+      border-color:#3b82f6;
+    }
+    .btn.ok {
+      background: linear-gradient(90deg, #16a34a, #22c55e);
+      border-color:#16a34a;
+    }
+    .btn.warn {
+      background: linear-gradient(90deg, #d97706, #f59e0b);
+      border-color:#d97706;
+    }
+    .btn.ghost { background:#0b1220; border-color:#1f2937; }
+    .card {
+      background:#0b1220;
+      border:1px solid #1f2937;
+      border-radius:12px;
+      padding:12px;
+    }
+    footer {
+      text-align:center;
+      color:#9aa3b2;
+      padding:40px 0;
+    }
+    .muted { color:#9aa3b2; }
+    label { font-size: 13px; color:#cbd5e1; }
+    input, select {
+      padding:8px 10px;
+      border-radius:8px;
+      border:1px solid #1f2937;
+      background:#020617;
+      color:var(--text);
+      font-size: 13px;
+    }
+    .inline { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Hashed Feature Design Pattern — Interactive Lesson</h1>
+      <div class="sub">
+        Assignment 6 • Machine Learning Design Pattern • Type: Data Representation / Feature Engineering
+      </div>
+    </div>
+    <div class="row">
+      <a class="btn" href="#intro">Intro</a>
+      <a class="btn" href="#videos">Video</a>
+      <a class="btn" href="#uml">UML</a>
+      <a class="btn" href="#demo">Interactive Demo</a>
+      <a class="btn" href="#simple-example">Simple Example</a>
+      <a class="btn" href="#complex-example">Complex Example</a>
+      <a class="btn" href="#uml-code">Code UML</a>
+      <a class="btn" href="#uml-code-complex">Complex UML</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- ========================= INTRO / WHAT & WHY ========================= -->
+    <section id="intro">
+      <h2>What is the Hashed Feature Pattern &amp; Why do we need it?</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="pill">Pattern Name &amp; Type</div>
+          <p>
+            The <strong>Hashed Feature</strong> design pattern (also called the <em>Hashing Trick</em> or
+            <em>Feature Hashing</em>) is a <strong>data representation / feature engineering pattern</strong> used in
+            machine learning for encoding <strong>high-cardinality categorical or text features</strong>.
+          </p>
+          <p>
+            Instead of building a huge mapping from categories to indices, we:
+          </p>
+          <ul>
+            <li>Convert each feature into a string like <code>"feature_name=value"</code>.</li>
+            <li>Apply a hash function to the string.</li>
+            <li>Map the hash into one of <code>N</code> vector positions using modulus.</li>
+          </ul>
+          <p class="muted">
+            Result: a <strong>fixed-size numeric feature vector</strong> that works even when new categories
+            appear after deployment.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="pill">Rationale (LL.2)</div>
+          <ul>
+            <li><strong>Scales to huge vocabularies:</strong> user IDs, ad IDs, products, URLs, or word n-grams can be in the millions.</li>
+            <li><strong>Fixed dimensionality:</strong> model input size is constant, independent of the number of observed categories.</li>
+            <li><strong>No vocabulary storage:</strong> no giant dict from category to index; just a hash function.</li>
+            <li><strong>Robust to unseen values:</strong> new categories are hashed automatically into existing buckets.</li>
+            <li><strong>Good for online learning:</strong> enables streaming updates without re-building vocabularies.</li>
+          </ul>
+          <div style="margin-top:8px">
+            <div class="pill">Trade-offs</div>
+            <ul>
+              <li><strong>Hash collisions:</strong> different categories may share the same bucket → information loss.</li>
+              <li><strong>Lower interpretability:</strong> difficult to map a bucket back to the original category.</li>
+              <li><strong>Need to choose N carefully:</strong> too small → many collisions; too large → memory cost.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="pill">When to Use &amp; When Not to Use</div>
+          <ul>
+            <li><strong>Use when</strong> you have:
+              <ul>
+                <li>Very high-cardinality categorical features.</li>
+                <li>Streaming or online learning systems.</li>
+                <li>Limited RAM / need compact models.</li>
+              </ul>
+            </li>
+            <li><strong>Smells it fixes:</strong>
+              <ul>
+                <li>Exploding one-hot vectors.</li>
+                <li>Frequent retraining just to handle new IDs.</li>
+                <li>Huge embedding tables that don’t fit in memory.</li>
+              </ul>
+            </li>
+            <li><strong>Anti-cases:</strong>
+              <ul>
+                <li>Small, low-cardinality categorical features where plain one-hot is fine.</li>
+                <li>ML systems that require fully interpretable, human-readable features.</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <div class="pill"><strong>Common Usage in the Software Industry (LL.2)</strong></div>
+        <p>
+          Hashed features are widely used in <strong>large-scale production ML systems</strong>:
+        </p>
+        <ul>
+          <li><strong>Online advertising / CTR prediction:</strong> user IDs, ad IDs, campaign IDs, and context are hashed
+              into a fixed feature vector used by logistic regression or gradient-boosted trees.</li>
+          <li><strong>Recommendation engines:</strong> product IDs, user IDs, and context features (device, app, region)
+              are hashed into compact representations.</li>
+          <li><strong>Text classification:</strong> word or character n-grams are feature-hashed instead of using a massive
+              vocabulary.</li>
+          <li><strong>Search ranking &amp; news feeds:</strong> real-time models consume hashed features to handle new queries
+              and documents without full pipeline retraining.</li>
+        </ul>
+        <p>
+          In short, Hashed Feature lets us <em>package arbitrarily many symbolic features into a fixed-size numeric
+          vector</em> that is friendly for both training and deployment at industrial scale.
+        </p>
+      </div>
+    </section>
+
+    <!-- ========================= YOUTUBE VIDEO ========================= -->
+    <section id="videos">
+      <h2>YouTube Video — Hashed Feature / Hashing Trick</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="pill">Recommended Video (≈10 min)</div>
+          <p><strong>“Feature Hashing (Hashing Trick) Explained for Machine Learning &amp; NLP”</strong></p>
+          <p class="muted">
+            This video explains the intuition behind feature hashing, why it’s useful for sparse data, and shows a simple
+            example of mapping text tokens into a fixed-length vector.
+          </p>
+          <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;">
+            <!-- Replace with any appropriate hashing trick video you like -->
+            <iframe
+              width="560"
+              height="315"
+              src="https://youtu.be/YQwyn4yjtV0?si=P6WocCTu5wu8BZQS"
+              title="Feature Hashing / Hashing Trick"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:12px;">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= UML (GENERIC) ========================= -->
+    <section id="uml">
+      <h2>UML — Class Diagram (Generic Hashed Feature Pipeline)</h2>
+      <p class="muted">
+        The diagram shows how raw examples are turned into hashed feature vectors and then consumed by an ML model.
+      </p>
+      <div class="mermaid">
+        classDiagram
+          direction LR
+
+          class RawExample {
+            +CategoricalFeatures : Dictionary~string,string~
+            +NumericFeatures : Dictionary~string,double~
+          }
+
+          class HashedFeatureEncoder {
+            +NumBuckets : int
+            +Encode(ex : RawExample) double[]
+            -Hash(key : string) int
+            -SignHash(key : string) int
+          }
+
+          class MLModel {
+            +Train(features : double[], label : double)
+            +Predict(features : double[]) double
+          }
+
+          RawExample --> HashedFeatureEncoder : is encoded by
+          HashedFeatureEncoder --> MLModel : produces input for
+      </div>
+    </section>
+
+    <!-- ========================= PARTICIPANTS / COMPONENTS ========================= -->
+    <section id="participants">
+      <h2>Pattern Participants &amp; Responsibilities</h2>
+      <ul>
+        <li><strong>RawExample</strong> – holds the original categorical and numeric features for one training instance.</li>
+        <li><strong>HashedFeatureEncoder</strong> – applies the hash function and builds a fixed-size feature vector.</li>
+        <li><strong>HashFunction / SignHash</strong> – internal helper(s) that map strings to integers and choose a sign.</li>
+        <li><strong>MLModel</strong> – any downstream model (e.g., logistic regression, linear SVM, neural net) that
+          consumes the hashed vector.</li>
+        <li><strong>Client</strong> – configures the encoder and model (e.g., number of buckets, learning rate) and
+          orchestrates training and prediction.</li>
+      </ul>
+    </section>
+
+    <!-- ========================= INTERACTIVE DEMO ========================= -->
+    <section id="demo">
+      <h2>Interactive Demo — See Feature Hashing in Action</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="pill">Try it</div>
+          <p>
+            Type a list of feature strings (e.g., <code>user_id=U123, ad_id=AD50, country=CA</code>) and choose the number
+            of buckets. The demo hashes each token into a fixed-size vector and shows collisions.
+          </p>
+          <div class="inline" style="margin-bottom:8px;">
+            <label for="tokensInput">Tokens:</label>
+            <input id="tokensInput" type="text"
+                   value="user_id=U123, ad_id=AD50, country=CA"
+                   style="min-width:260px;" />
+          </div>
+          <div class="inline" style="margin-bottom:8px;">
+            <label for="bucketSelect">Buckets:</label>
+            <select id="bucketSelect">
+              <option value="8">8</option>
+              <option value="16" selected>16</option>
+              <option value="32">32</option>
+              <option value="64">64</option>
+            </select>
+            <button class="btn ok" id="btnHash">Hash Tokens</button>
+          </div>
+          <p class="muted">
+            Buckets with multiple tokens show collisions. Increasing the bucket count usually reduces collisions.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="pill">Hashed Vector</div>
+          <pre id="vectorView">(run the demo)</pre>
+        </div>
+
+        <div class="card">
+          <div class="pill">Bucket → Tokens</div>
+          <pre id="bucketView">(run the demo)</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= SIMPLE EXAMPLE SECTION ========================= -->
+    <section id="simple-example">
+      <h2>Simple Code Example — Hashing a Single Categorical Feature (C#)</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="pill">Problem (Simple)</div>
+          <p>
+            We want to represent a <strong>single categorical feature</strong> such as <code>city</code> as a fixed-length
+            numeric vector, without maintaining a city-to-index dictionary.
+          </p>
+          <ul>
+            <li>Input: a string like <code>"Toronto"</code> and a chosen number of buckets (e.g., 8).</li>
+            <li>Output: a numeric vector of length 8 with one position set to <code>+1</code> or <code>-1</code>.</li>
+            <li>New cities should work automatically without changing the code.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="pill">C# Implementation (Simple)</div>
+          <pre><code>// SimpleHashedFeatureExample.cs
+using System;
+
+class SimpleHashedFeatureExample
+{
+    static double[] HashCity(string city, int numBuckets)
+    {
+        var features = new double[numBuckets];
+
+        // 1) Hash the city name to an integer
+        int rawHash = city.GetHashCode();
+
+        // 2) Map to [0, numBuckets)
+        int index = Math.Abs(rawHash) % numBuckets;
+
+        // 3) Optional signed hashing: +1 or -1
+        int sign = (rawHash % 2 == 0) ? 1 : -1;
+
+        features[index] += sign;
+
+        return features;
+    }
+
+    static void Main()
+    {
+        int numBuckets = 8;
+        string city = "Toronto";
+
+        double[] hashed = HashCity(city, numBuckets);
+
+        Console.WriteLine($"Hashed feature vector for city = {city}");
+        for (int i = 0; i &lt; hashed.Length; i++)
+        {
+            Console.WriteLine($"Bucket {i}: {hashed[i]}");
+        }
+    }
+}</code></pre>
+          <p class="muted">
+            If you change the city name (e.g., to <code>"Vancouver"</code>), the vector size stays the same, but the active
+            bucket index will usually change.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= DOWNLOADS: SIMPLE ========================= -->
+    <section id="downloads-simple">
+      <h2>Download C# Source — Simple Hashed Feature Example</h2>
+      <p>
+        These files implement the simple single-feature hashing demo in C#. Place them under <code>files/simple</code> in the same structure as this web page.
+      </p>
+      <div class="row" style="margin-top:8px;">
+        <a class="btn primary" href="files/simple/SimpleHashedFeatureExample.cs" target="_blank" download>
+          Simple/SimpleHashedFeatureExample.cs
+        </a>
+      </div>
+      <p style="margin-top:10px;">
+        <a class="btn ok" href="files/simple.zip" download>⬇ Download Simple Project (ZIP)</a>
+      </p>
+    </section>
+
+    <!-- ========================= UML — CODE FOCUSED (SIMPLE) ========================= -->
+    <section id="uml-code">
+      <h2>UML — Class Diagram (Code-Focused, Simple)</h2>
+      <div class="mermaid">
+        classDiagram
+          direction LR
+
+          class SimpleHashedFeatureExample {
+            +Main()
+            -HashCity(city : string, numBuckets : int) double[]
+          }
+      </div>
+      <p class="muted">
+        The simple example keeps everything in one class. The complex example below introduces a reusable
+        <code>HashedFeatureEncoder</code> and an online logistic regression model.
+      </p>
+    </section>
+
+    <!-- ========================= COMPLEX EXAMPLE SECTION ========================= -->
+    <section id="complex-example">
+      <h2>Complex Code Example — Online CTR Prediction with Hashed Features (C#)</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="pill">Problem (Complex)</div>
+          <p>
+            You are building an <strong>online Click-Through-Rate (CTR) predictor</strong> for an advertising platform.
+            Each training example includes:
+          </p>
+          <ul>
+            <li><code>user_id</code></li>
+            <li><code>ad_id</code></li>
+            <li><code>device_type</code></li>
+            <li><code>country</code></li>
+            <li><code>referrer_domain</code></li>
+            <li>Numeric context like <code>hour_of_day</code> and <code>days_since_signup</code>.</li>
+          </ul>
+          <p>
+            There are millions of users and ads. New IDs appear daily. A one-hot encoding would require a
+            massive, constantly updated vocabulary and a huge model.
+          </p>
+          <p>
+            Goal: Design a representation and model that:
+          </p>
+          <ul>
+            <li>Uses a <strong>fixed-size feature vector</strong> regardless of ID count.</li>
+            <li>Works when new IDs appear at inference time.</li>
+            <li>Supports <strong>online learning</strong> (updating the model as new clicks arrive).</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="pill">How Hashed Feature Solves It</div>
+          <ul>
+            <li>
+              Use a <strong>HashedFeatureEncoder</strong> that converts each
+              <code>("feature_name", "value")</code> pair into a string and hashes it into
+              one of <code>N</code> buckets.
+            </li>
+            <li>
+              Treat numeric features similarly by hashing the feature name and adding the numeric value to that bucket.
+            </li>
+            <li>
+              Feed the resulting vector into an <strong>online logistic regression</strong> model and update the weights
+              after each training example.
+            </li>
+            <li>
+              New <code>user_id</code> or <code>ad_id</code> values are automatically mapped into existing buckets
+              using the same hash function – no vocabulary updates required.
+            </li>
+          </ul>
+          <p class="muted">
+            Hash collisions cause some information loss, but with a large enough bucket count (e.g., 2<sup>15</sup>),
+            the model remains accurate and scalable.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="pill">C# Implementation (Core Classes)</div>
+          <pre><code>// HashedFeatureEncoder.cs
+using System;
+using System.Collections.Generic;
+
+namespace HashedFeatureCTR
+{
+    public class HashedFeatureEncoder
+    {
+        public int NumBuckets { get; }
+
+        public HashedFeatureEncoder(int numBuckets)
+        {
+            NumBuckets = numBuckets;
+        }
+
+        public double[] Encode(
+            Dictionary&lt;string, string&gt; categorical,
+            Dictionary&lt;string, double&gt; numeric = null)
+        {
+            double[] vector = new double[NumBuckets];
+
+            // 1) Categorical features: "name=value" -&gt; hash bucket
+            foreach (var kv in categorical)
+            {
+                string key = $"{kv.Key}={kv.Value}";
+                int rawHash = key.GetHashCode();
+                int index = Math.Abs(rawHash) % NumBuckets;
+
+                int sign = (rawHash % 2 == 0) ? 1 : -1;
+                vector[index] += sign;
+            }
+
+            // 2) Numeric features: hash the feature name, add numeric value
+            if (numeric != null)
+            {
+                foreach (var kv in numeric)
+                {
+                    string key = kv.Key;
+                    double value = kv.Value;
+
+                    int rawHash = key.GetHashCode();
+                    int index = Math.Abs(rawHash) % NumBuckets;
+
+                    vector[index] += value;
+                }
+            }
+
+            return vector;
+        }
+    }
+}</code></pre>
+        </div>
+
+        <div class="card">
+          <div class="pill">Online Logistic Regression &amp; Program (C#)</div>
+          <pre><code>// OnlineLogisticRegression.cs
+using System;
+
+namespace HashedFeatureCTR
+{
+    public class OnlineLogisticRegression
+    {
+        private readonly double[] _weights;
+        private readonly double _learningRate;
+
+        public OnlineLogisticRegression(int numFeatures, double learningRate = 0.01)
+        {
+            _weights = new double[numFeatures];
+            _learningRate = learningRate;
+        }
+
+        private static double Sigmoid(double z)
+        {
+            return 1.0 / (1.0 + Math.Exp(-z));
+        }
+
+        public double Predict(double[] features)
+        {
+            double dot = 0.0;
+            for (int i = 0; i &lt; features.Length; i++)
+                dot += _weights[i] * features[i];
+
+            return Sigmoid(dot);
+        }
+
+        public void Update(double[] features, int label) // label = 0 or 1
+        {
+            double p = Predict(features);
+            double error = label - p;
+
+            for (int i = 0; i &lt; features.Length; i++)
+                _weights[i] += _learningRate * error * features[i];
+        }
+    }
+}
+
+// Program.cs
+using System;
+using System.Collections.Generic;
+
+namespace HashedFeatureCTR
+{
+    class Program
+    {
+        static void Main()
+        {
+            int numBuckets = 1 &lt;&lt; 15; // 32768 buckets
+            var encoder = new HashedFeatureEncoder(numBuckets);
+            var model   = new OnlineLogisticRegression(numBuckets, learningRate: 0.05);
+
+            var categorical = new Dictionary&lt;string, string&gt;
+            {
+                { "user_id", "U123456" },
+                { "ad_id", "AD789" },
+                { "device_type", "mobile" },
+                { "country", "CA" },
+                { "referrer_domain", "news.example.com" }
+            };
+
+            var numeric = new Dictionary&lt;string, double&gt;
+            {
+                { "hour_of_day", 14 },
+                { "days_since_signup", 30 }
+            };
+
+            int label = 1; // user clicked the ad
+
+            double[] features = encoder.Encode(categorical, numeric);
+
+            Console.WriteLine("Before training:");
+            Console.WriteLine($"Predicted CTR: {model.Predict(features):F4}");
+
+            for (int i = 0; i &lt; 100; i++)
+                model.Update(features, label);
+
+            Console.WriteLine("After training:");
+            Console.WriteLine($"Predicted CTR: {model.Predict(features):F4}");
+        }
+    }
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= DOWNLOADS: COMPLEX ========================= -->
+    <section id="downloads-complex">
+      <h2>Download C# Source — Complex Hashed Feature CTR Example</h2>
+      <p>
+        These files implement the scene-style complex example for the Hashed Feature pattern in C#.
+      </p>
+      <div class="row" style="margin-top:8px;">
+        <a class="btn primary" href="files/complex/HashedFeatureEncoder.cs" target="_blank" download>
+          Complex/HashedFeatureEncoder.cs
+        </a>
+        <a class="btn primary" href="files/complex/OnlineLogisticRegression.cs" target="_blank" download>
+          Complex/OnlineLogisticRegression.cs
+        </a>
+        <a class="btn primary" href="files/complex/Program.cs" target="_blank" download>
+          Complex/Program.cs
+        </a>
+      </div>
+      <p style="margin-top:10px;">
+        <a class="btn ok" href="files/complex.zip" download>⬇ Download Complex Project (ZIP)</a>
+      </p>
+    </section>
+
+    <!-- ========================= UML — COMPLEX ========================= -->
+    <section id="uml-code-complex">
+      <h2>UML — Class Diagram (Complex CTR Example)</h2>
+      <div class="mermaid">
+        classDiagram
+          direction LR
+
+          class HashedFeatureEncoder {
+            +NumBuckets : int
+            +Encode(categorical : Dictionary~string,string~, numeric : Dictionary~string,double~) double[]
+          }
+
+          class OnlineLogisticRegression {
+            -weights : double[]
+            -learningRate : double
+            +OnlineLogisticRegression(numFeatures : int, learningRate : double)
+            +Predict(features : double[]) double
+            +Update(features : double[], label : int) void
+          }
+
+          class Program {
+            +Main()
+          }
+
+          Program --> HashedFeatureEncoder : uses
+          Program --> OnlineLogisticRegression : uses
+          HashedFeatureEncoder --> "vector" OnlineLogisticRegression : provides features
+      </div>
+      <p class="muted">
+        Here the <strong>HashedFeatureEncoder</strong> encapsulates the design pattern itself. The
+        <strong>OnlineLogisticRegression</strong> model does not know anything about categorical values or IDs; it only
+        operates on numeric hashed vectors, which is the core benefit of this pattern.
+      </p>
+    </section>
+
+    <footer>
+      Assignment 6 — Hashed Feature Machine Learning Design Pattern • Lesson Plan &amp; Presentation Web Page
+    </footer>
+  </main>
+
+  <!-- ========================= JS: INTERACTIVE HASHING DEMO ========================= -->
+  <script>
+    // Simple string hash (Java-style)
+    function hashString(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = ((hash << 5) - hash) + str.charCodeAt(i);
+        hash |= 0; // keep 32-bit
+      }
+      return hash;
+    }
+
+    function runHashDemo() {
+      const tokensInput = document.getElementById('tokensInput').value;
+      const bucketSelect = document.getElementById('bucketSelect');
+      const numBuckets = parseInt(bucketSelect.value, 10);
+
+      const vectorView = document.getElementById('vectorView');
+      const bucketView = document.getElementById('bucketView');
+
+      if (!tokensInput.trim()) {
+        vectorView.textContent = '(no tokens)';
+        bucketView.textContent = '(no tokens)';
+        return;
+      }
+
+      const tokens = tokensInput.split(',')
+        .map(t => t.trim())
+        .filter(t => t.length > 0);
+
+      const vector = new Array(numBuckets).fill(0);
+      const buckets = {};
+
+      tokens.forEach(token => {
+        const h = hashString(token);
+        const index = Math.abs(h) % numBuckets;
+        const sign = (h % 2 === 0) ? 1 : -1;
+        vector[index] += sign;
+
+        if (!buckets[index]) buckets[index] = [];
+        buckets[index].push(token + ` (${sign > 0 ? '+' : ''}${sign})`);
+      });
+
+      // Show vector
+      vectorView.textContent = vector
+        .map((v, i) => `Bucket ${i}: ${v}`)
+        .join('\n');
+
+      // Show mapping from buckets to tokens
+      const lines = [];
+      for (let i = 0; i < numBuckets; i++) {
+        if (buckets[i]) {
+          lines.push(`Bucket ${i}: ${buckets[i].join(', ')}`);
+        } else {
+          lines.push(`Bucket ${i}: (empty)`);
+        }
+      }
+      bucketView.textContent = lines.join('\n');
+    }
+
+    document.getElementById('btnHash').addEventListener('click', runHashDemo);
+    // Run once on load with default values
+    runHashDemo();
+  </script>
+</body>
+</html>
