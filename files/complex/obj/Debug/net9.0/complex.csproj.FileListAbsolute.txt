@@ -1,0 +1,15 @@
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\complex\obj\Debug\net9.0\complex.GeneratedMSBuildEditorConfig.editorconfig
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\complex\obj\Debug\net9.0\complex.AssemblyInfoInputs.cache
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\complex\obj\Debug\net9.0\complex.AssemblyInfo.cs
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\complex\obj\Debug\net9.0\complex.csproj.CoreCompileInputs.cache
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\complex\obj\Debug\net9.0\complex.sourcelink.json
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\complex\bin\Debug\net9.0\complex.exe
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\complex\bin\Debug\net9.0\complex.deps.json
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\complex\bin\Debug\net9.0\complex.runtimeconfig.json
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\complex\bin\Debug\net9.0\complex.dll
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\complex\bin\Debug\net9.0\complex.pdb
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\complex\obj\Debug\net9.0\complex.dll
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\complex\obj\Debug\net9.0\refint\complex.dll
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\complex\obj\Debug\net9.0\complex.pdb
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\complex\obj\Debug\net9.0\complex.genruntimeconfig.cache
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\complex\obj\Debug\net9.0\ref\complex.dll

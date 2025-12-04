@@ -34,7 +34,7 @@
       position:sticky;
       top:0;
       background:linear-gradient(180deg, rgba(15,23,42,.85), rgba(15,23,42,.55));
-      backdrop-filter: blur(6px);
+      background: rgba(15, 23, 42, 0.75);
       z-index:10;
     }
     h1 {
@@ -271,26 +271,17 @@
       <h2>YouTube Video — Hashed Feature / Hashing Trick</h2>
       <div class="grid">
         <div class="card">
-          <div class="pill">Recommended Video (≈10 min)</div>
-          <p><strong>“Feature Hashing (Hashing Trick) Explained for Machine Learning &amp; NLP”</strong></p>
-          <p class="muted">
-            This video explains the intuition behind feature hashing, why it’s useful for sparse data, and shows a simple
-            example of mapping text tokens into a fixed-length vector.
-          </p>
-          <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;">
-            <!-- Replace with any appropriate hashing trick video you like -->
-            <iframe
-              width="560"
-              height="315"
-              src="https://youtu.be/YQwyn4yjtV0?si=P6WocCTu5wu8BZQS"
-              title="Feature Hashing / Hashing Trick"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-              style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:12px;">
-            </iframe>
-          </div>
+          <div class="pill">Video (Click to Open)</div>
+          <a href="https://www.youtube.com/watch?v=z9irRiTdDoE" target="_blank" rel="noopener">
+            <img 
+              src="https://img.youtube.com/vi/z9irRiTdDoE/hqdefault.jpg" 
+              style="width:100%;border-radius:12px;"
+              alt="Feature Hashing Video Thumbnail"
+            />
+          </a>
+          <p class="muted">Click to watch the video on YouTube.</p>
         </div>
+
       </div>
     </section>
 
@@ -400,7 +391,7 @@
           </ul>
         </div>
 
-        <div class="card">
+        <!-- <div class="card">
           <div class="pill">C# Implementation (Simple)</div>
           <pre><code>// SimpleHashedFeatureExample.cs
 using System;
@@ -443,7 +434,7 @@ class SimpleHashedFeatureExample
             If you change the city name (e.g., to <code>"Vancouver"</code>), the vector size stays the same, but the active
             bucket index will usually change.
           </p>
-        </div>
+        </div> -->
       </div>
     </section>
 
@@ -454,9 +445,9 @@ class SimpleHashedFeatureExample
         These files implement the simple single-feature hashing demo in C#. Place them under <code>files/simple</code> in the same structure as this web page.
       </p>
       <div class="row" style="margin-top:8px;">
-        <a class="btn primary" href="files/simple/SimpleHashedFeatureExample.cs" target="_blank" download>
+        <!-- <a class="btn primary" href="files/simple/SimpleHashedFeatureExample.cs" target="_blank" download>
           Simple/SimpleHashedFeatureExample.cs
-        </a>
+        </a> -->
       </div>
       <p style="margin-top:10px;">
         <a class="btn ok" href="files/simple.zip" download>⬇ Download Simple Project (ZIP)</a>
@@ -539,7 +530,7 @@ class SimpleHashedFeatureExample
           </p>
         </div>
 
-        <div class="card">
+        <!-- <div class="card">
           <div class="pill">C# Implementation (Core Classes)</div>
           <pre><code>// HashedFeatureEncoder.cs
 using System;
@@ -681,7 +672,7 @@ namespace HashedFeatureCTR
         }
     }
 }</code></pre>
-        </div>
+        </div> -->
       </div>
     </section>
 
@@ -692,15 +683,15 @@ namespace HashedFeatureCTR
         These files implement the scene-style complex example for the Hashed Feature pattern in C#.
       </p>
       <div class="row" style="margin-top:8px;">
-        <a class="btn primary" href="files/complex/HashedFeatureEncoder.cs" target="_blank" download>
-          Complex/HashedFeatureEncoder.cs
+        <!-- <a class="btn primary" href="files/complex.zip" target="_blank" download>
+          Complex Code Example
         </a>
         <a class="btn primary" href="files/complex/OnlineLogisticRegression.cs" target="_blank" download>
           Complex/OnlineLogisticRegression.cs
         </a>
         <a class="btn primary" href="files/complex/Program.cs" target="_blank" download>
           Complex/Program.cs
-        </a>
+        </a> -->
       </div>
       <p style="margin-top:10px;">
         <a class="btn ok" href="files/complex.zip" download>⬇ Download Complex Project (ZIP)</a>

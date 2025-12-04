@@ -1,0 +1,15 @@
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\simple\obj\Debug\net9.0\simple.GeneratedMSBuildEditorConfig.editorconfig
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\simple\obj\Debug\net9.0\simple.AssemblyInfoInputs.cache
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\simple\obj\Debug\net9.0\simple.AssemblyInfo.cs
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\simple\obj\Debug\net9.0\simple.csproj.CoreCompileInputs.cache
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\simple\obj\Debug\net9.0\simple.sourcelink.json
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\simple\bin\Debug\net9.0\simple.exe
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\simple\bin\Debug\net9.0\simple.deps.json
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\simple\bin\Debug\net9.0\simple.runtimeconfig.json
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\simple\bin\Debug\net9.0\simple.dll
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\simple\bin\Debug\net9.0\simple.pdb
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\simple\obj\Debug\net9.0\simple.dll
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\simple\obj\Debug\net9.0\refint\simple.dll
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\simple\obj\Debug\net9.0\simple.pdb
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\simple\obj\Debug\net9.0\simple.genruntimeconfig.cache
+A:\SENECA ALL SEMESTERS\5th Semester\SED505 (Design Patterns)\Assignments\Assignment 6\Asgnmt_6\files\simple\obj\Debug\net9.0\ref\simple.dll
